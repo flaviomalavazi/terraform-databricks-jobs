@@ -12,7 +12,7 @@ data "databricks_node_type" "smallest" {
 }
 
 resource "databricks_job" "this" {
-  name = "Job with multiple tasks defined using terraform"
+  name = "__Job with multiple tasks defined using terraform"
 
   job_cluster {
     job_cluster_key = "job_cluster"
