@@ -11,13 +11,13 @@ data "databricks_node_type" "smallest" {
   photon_worker_capable = true
 }
 
-resource "databricks_job" "this" {
+resource "databricks_job" "job_do_chan" {
   name = "__Job with multiple tasks defined using terraform"
 
   job_cluster {
     job_cluster_key = "job_cluster"
     new_cluster {
-      num_workers   = 1
+      num_workers   = 2
       spark_version = data.databricks_spark_version.latest_lts.id
       node_type_id  = data.databricks_node_type.smallest.id
       custom_tags   = local.tags
@@ -52,3 +52,27 @@ resource "databricks_job" "this" {
   tags = local.tags
 
 }
+
+# resource "databricks_permissions" "job_usage" {
+#   job_id = resource.databricks_job.this.id
+
+#   access_control {
+#     group_name       = "users"
+#     permission_level = "CAN_VIEW"
+#   }
+
+#   access_control {
+#     group_name       = databricks_group.auto.display_name
+#     permission_level = "CAN_MANAGE_RUN"
+#   }
+
+#   access_control {
+#     group_name       = databricks_group.eng.display_name
+#     permission_level = "CAN_MANAGE"
+#   }
+
+#   access_control {
+#     service_principal_name = databricks_service_principal.aws_principal.application_id
+#     permission_level       = "IS_OWNER"
+#   }
+# }
